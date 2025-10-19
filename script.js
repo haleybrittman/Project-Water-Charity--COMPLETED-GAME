@@ -1,7 +1,7 @@
 // 🎮 DOM ELEMENTS
 // Player image for jerry can
 const playerImg = new Image();
-playerImg.src = "jerrycan.png";
+playerImg.src = "jerrycan2.png";
 const startScreen = document.getElementById("start-screen");
 const gameContainer = document.getElementById("game-container");
 const pauseMenu = document.getElementById("pause-menu");
@@ -23,7 +23,7 @@ let lives = 4;
 let isPaused = false;
 let isPlaying = false;
 let drops = [];
-let player = { x: 370, y: 550, width: 60, height: 30 };
+let player = { x: 370, y: 550, width: 90, height: 90 };
 
 // 🌟 DIFFICULTY VARIABLES
 let difficulty = "normal";
@@ -174,9 +174,14 @@ function endGame() {
 // 🕹️ MOVE PLAYER
 document.addEventListener("keydown", (e) => {
   if (!isPlaying) return;
-  if (e.key === "ArrowLeft" && player.x > 0) player.x -= 20;
+  const moveSpeed = 40; // Increased speed
+  if (e.key === "ArrowLeft" && player.x > 0) player.x -= moveSpeed;
   if (e.key === "ArrowRight" && player.x < canvas.width - player.width)
-    player.x += 20;
+    player.x += moveSpeed;
+  // Prevent player from clipping below the canvas
+  if (player.y + player.height > canvas.height) {
+    player.y = canvas.height - player.height;
+  }
 });
 
 // 🔘 BUTTON HANDLERS

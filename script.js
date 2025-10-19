@@ -4,7 +4,6 @@ const gameContainer = document.getElementById("game-container");
 const pauseMenu = document.getElementById("pause-menu");
 const gameOver = document.getElementById("game-over");
 
-const startBtn = document.getElementById("start-btn");
 const pauseBtn = document.getElementById("pause-btn");
 const resumeBtn = document.getElementById("resume-btn");
 const restartBtn = document.getElementById("restart-btn");
@@ -192,6 +191,14 @@ resumeBtn.addEventListener("click", () => {
 
 restartBtn.addEventListener("click", restartGame);
 playAgainBtn.addEventListener("click", restartGame);
+
+menuBtn.addEventListener("click", () => {
+  isPlaying = false;
+  isPaused = false;
+  pauseMenu.classList.remove("active");
+  gameContainer.classList.remove("active");
+  startScreen.classList.add("active");
+});
 
 // 🌟 DIFFICULTY BUTTON LOGIC
 const difficultyButtons = document.querySelectorAll(".difficulty-btn");

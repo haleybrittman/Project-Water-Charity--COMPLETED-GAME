@@ -177,6 +177,10 @@ canvas {
   text-decoration: underline;
 }
 
+.overlay button {
+  margin: 10px 0;
+}
+
 /* --------------------
    RESPONSIVE LAYOUT
    -------------------- */

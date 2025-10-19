@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Drop Defender</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="content-box">
+    <!-- 🎯 START SCREEN -->
+    <div id="start-screen" class="screen active">
+      <div class="logo-section">
+        <img src="jerry.png" alt="charity: water logo" class="logo" />
+        <p class="tagline">Inspired by charity: water’s mission — bringing clean water to all.</p>
+      </div>
+
+      <h1 class="game-title">DROP DEFENDER</h1>
+      <button id="start-btn">💧 Start Game?</button>
+      <p class="instructions">Catch clean water drops. Avoid pollutants. Save lives!</p>
+    </div>
+
+    <!-- 🎮 GAME AREA -->
+    <div id="game-container" class="screen">
+      <!-- Jerry image for the game interface -->
+      <img src="jerry.png" alt="Jerry" class="jerry" />
+      <button id="pause-btn" class="pause-btn">⏸️ Pause</button>
+      <canvas id="game-canvas" width="800" height="600"></canvas>
+    </div>
+
+    <!-- ⏸️ PAUSE MENU -->
+    <div id="pause-menu" class="overlay">
+      <h2>Game Paused</h2>
+      <button id="resume-btn">▶️ Resume</button>
+      <button id="restart-btn">🔁 Restart</button>
+    </div>
+
+    <!-- 🌊 LEVEL COMPLETE SCREEN -->
+    <div id="level-complete" class="overlay">
+      <h2 id="level-message">Level Completed!</h2>
+      <p id="fact-text">💧 Did you know? 1 in 10 people lack access to clean water.</p>
+      <button id="next-level-btn">Next Level →</button>
+    </div>
+
+    <!-- 💀 GAME OVER SCREEN -->
+    <div id="game-over" class="overlay">
+      <img src="jerry.png" alt="charity: water logo" class="logo small" />
+      <h2>Game Over</h2>
+      <p>Every drop counts. Learn more at <a href="https://charitywater.org" target="_blank">charitywater.org</a>.</p>
+      <button id="play-again-btn">Play Again</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

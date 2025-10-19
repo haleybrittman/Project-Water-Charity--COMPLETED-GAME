@@ -9,6 +9,8 @@ const pauseBtn = document.getElementById("pause-btn");
 const resumeBtn = document.getElementById("resume-btn");
 const restartBtn = document.getElementById("restart-btn");
 const playAgainBtn = document.getElementById("play-again-btn");
+const menuBtn = document.getElementById("menu-btn");
+
 
 const canvas = document.getElementById("game-canvas");
 const ctx = canvas.getContext("2d");

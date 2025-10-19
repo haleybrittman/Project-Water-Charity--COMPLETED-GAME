@@ -270,8 +270,8 @@ canvas {
 /* --- LIVES DISPLAY --- */
 #lives-display {
   position: absolute;
-  top: 15px;
-  right: 20px;
+  top: 60px;
+  left: 20px;
   font-size: 1.3em;
   font-weight: bold;
   color: #fff;

@@ -208,14 +208,14 @@ difficultyButtons.forEach((btn) => {
     difficulty = btn.dataset.mode;
 
     if (difficulty === "easy") {
-      dropSpeed = 2;
-      pollutantChance = 0.2;
+      dropSpeed = 2.5;
+      pollutantChance = 0.25;
     } else if (difficulty === "normal") {
-      dropSpeed = 3;
-      pollutantChance = 0.3;
+      dropSpeed = 4;
+      pollutantChance = 0.4;
     } else if (difficulty === "hard") {
-      dropSpeed = 4.5;
-      pollutantChance = 0.45;
+      dropSpeed = 5.5;
+      pollutantChance = 0.55;
     }
 
     // Hide start screen and begin game

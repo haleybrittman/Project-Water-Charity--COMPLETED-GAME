@@ -1,4 +1,7 @@
 // 🎮 DOM ELEMENTS
+// Player image for jerry can
+const playerImg = new Image();
+playerImg.src = "jerrycan.png";
 const startScreen = document.getElementById("start-screen");
 const gameContainer = document.getElementById("game-container");
 const pauseMenu = document.getElementById("pause-menu");
@@ -63,9 +66,8 @@ function createDrop() {
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // draw player
-  ctx.fillStyle = "#ffff00";
-  ctx.fillRect(player.x, player.y, player.width, player.height);
+  // draw player as jerry can image
+  ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
 
   // draw drops
   drops.forEach((drop) => {

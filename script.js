@@ -1,7 +1,7 @@
 // 🎮 DOM ELEMENTS
 // Player image for jerry can
 const playerImg = new Image();
-playerImg.src = "jerrycan.png";
+playerImg.src = "bucket.png";
 // Preserve aspect ratio when sizing the player image
 playerImg.onload = () => {
   const ratio = playerImg.naturalHeight / playerImg.naturalWidth || 1;

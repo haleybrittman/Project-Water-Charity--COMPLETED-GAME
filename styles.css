@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Proxima Nova Regular', 'Proxima Nova', 'Avenir', 'Poppins', Arial, Helvetica, sans-serif;
   /* outer page background: yellow */
   background: rgb(255, 201, 7);
   height: 100vh;

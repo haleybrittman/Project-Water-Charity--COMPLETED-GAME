@@ -38,6 +38,9 @@ let player = { x: 370, y: 480, width: 70, height: 70 };
 let level = 1;
 const maxLevels = 2;
 let targetScore = 0;
+// Timer
+let timeRemaining = 25;
+let timerInterval = null;
 
 // 🌟 DIFFICULTY VARIABLES
 let difficulty = "normal";
@@ -67,6 +70,12 @@ difficultyDisplay.id = "difficulty-display";
 difficultyDisplay.textContent = `Mode: ${difficulty.toUpperCase()}`;
 gameContainer.appendChild(difficultyDisplay);
 
+// Timer display
+const timerDisplay = document.createElement("div");
+timerDisplay.id = "timer-display";
+timerDisplay.textContent = `Time: ${timeRemaining}s`;
+gameContainer.appendChild(timerDisplay);
+
 // Quick facts to show between levels
 const WATER_FACTS = [
   "1 in 10 people lack access to clean water.",
@@ -94,6 +103,7 @@ function applyLevelScaling() {
 
 function completeLevel() {
   isPlaying = false;
+  clearInterval(timerInterval);
   levelMessage.textContent = `Level ${level} Completed!`;
   const fact = WATER_FACTS[(level - 1) % WATER_FACTS.length];
   factText.textContent = `💧 Did you know? ${fact}`;
@@ -241,8 +251,34 @@ function updateLives() {
 // 💀 END GAME
 function endGame() {
   isPlaying = false;
+  clearInterval(timerInterval);
   gameContainer.classList.remove("active");
   gameOver.classList.add("active");
+}
+
+// ⏰ TIMER FUNCTIONS
+function startTimer() {
+  timeRemaining = 25;
+  updateTimer();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    if (!isPaused && isPlaying) {
+      timeRemaining--;
+      updateTimer();
+      if (timeRemaining <= 0) {
+        endGame();
+      }
+    }
+  }, 1000);
+}
+
+function updateTimer() {
+  timerDisplay.textContent = `Time: ${timeRemaining}s`;
+  if (timeRemaining <= 5) {
+    timerDisplay.style.color = "#ff4d4d";
+  } else {
+    timerDisplay.style.color = "#fff";
+  }
 }
 
 // 🕹️ MOVE PLAYER
@@ -287,6 +323,7 @@ nextLevelBtn.addEventListener("click", () => {
     drops = [];
     for (let i = 0; i < 3; i++) createDrop();
     isPlaying = true;
+    startTimer();
     update();
   } else {
     // After final level, restart game flow
@@ -344,6 +381,7 @@ function startGame() {
   drops = [];
   for (let i = 0; i < 3; i++) createDrop();
   difficultyDisplay.textContent = `Mode: ${difficulty.toUpperCase()}`;
+  startTimer();
   update();
 }
 

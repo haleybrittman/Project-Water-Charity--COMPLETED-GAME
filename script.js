@@ -50,6 +50,35 @@ let baseDropSpeed = dropSpeed;
 let basePollutantChance = pollutantChance;
 
 // 💧 DROP VISUAL SETTINGS
+// 🎉 MILESTONE MESSAGES
+const MILESTONES = [
+  { score: 5, message: "Nice start!" },
+  { score: 10, message: "Halfway there!" },
+  { score: 15, message: "Almost done!" },
+  { score: 20, message: "Amazing! You reached 20 points!" }
+];
+
+const MILESTONE_DURATION_MS = 2500;
+let shownMilestones = new Set();
+let milestoneShowing = false;
+let milestonePromise = null;
+
+function showMilestoneMessage(msg) {
+  const milestoneDiv = document.createElement("div");
+  milestoneDiv.className = "milestone-message";
+  milestoneDiv.textContent = msg;
+  gameContainer.appendChild(milestoneDiv);
+
+  milestoneShowing = true;
+  milestonePromise = new Promise((resolve) => {
+    setTimeout(() => {
+      milestoneDiv.remove();
+      milestoneShowing = false;
+      resolve();
+    }, MILESTONE_DURATION_MS);
+  });
+  return milestonePromise;
+}
 // Make clean water droplets larger to be easier to catch
 const CLEAN_DROP_RADIUS = 16;
 const POLLUTANT_DROP_RADIUS = 16;
@@ -184,7 +213,12 @@ function update() {
         flashCanvas("rgba(50, 255, 50, 0.4)");
         // Check level target
         if (isPlaying && score >= targetScore) {
-          completeLevel();
+          // Pause gameplay while awaiting milestone popup (if any)
+          if (milestoneShowing && milestonePromise) {
+            isPlaying = false;
+            milestonePromise.then(() => {
+              // Guard: ensure game still in a state to complete level
+              completeLevel();
           return;
         }
       }

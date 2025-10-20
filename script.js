@@ -33,7 +33,7 @@ let lives = 4;
 let isPaused = false;
 let isPlaying = false;
 let drops = [];
-let player = { x: 370, y: 550, width: 70, height: 70 };
+let player = { x: 370, y: 480, width: 70, height: 70 };
 // Levels
 let level = 1;
 const maxLevels = 2;
@@ -338,6 +338,7 @@ function startGame() {
   lives = 4;
   levelComplete.classList.remove("active");
   player.x = 370;
+  player.y = 480; // Always reset y to keep player above the bottom
   updateLives();
   updateScore();
   drops = [];

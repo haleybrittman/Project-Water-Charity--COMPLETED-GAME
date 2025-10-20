@@ -36,7 +36,7 @@ let drops = [];
 let player = { x: 370, y: 550, width: 70, height: 70 };
 // Levels
 let level = 1;
-const maxLevels = 3;
+const maxLevels = 2;
 let targetScore = 0;
 
 // 🌟 DIFFICULTY VARIABLES
@@ -75,13 +75,11 @@ const WATER_FACTS = [
 ];
 
 function setTargetScore() {
-  // Level 1: 5, Level 2: 10, Level 3: 15
+  // Level 1: 5, Level 2: 10
   if (level === 1) {
     targetScore = 5;
-  } else if (level === 2) {
-    targetScore = 10;
   } else {
-    targetScore = 15;
+    targetScore = 10;
   }
 }
 

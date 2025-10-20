@@ -184,7 +184,7 @@ button:hover {
 
 canvas {
   display: block;
-  background: linear-gradient(#ededed, #2E9DF7);
+  background: linear-gradient(#2E9DF7, #2E9DF7);
   border: 2px solid #fff;
   border-radius: 10px;
 }

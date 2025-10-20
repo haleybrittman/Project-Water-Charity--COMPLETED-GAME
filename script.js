@@ -52,7 +52,7 @@ let basePollutantChance = pollutantChance;
 // 💧 DROP VISUAL SETTINGS
 // Make clean water droplets larger to be easier to catch
 const CLEAN_DROP_RADIUS = 16;
-const POLLUTANT_DROP_RADIUS = 10;
+const POLLUTANT_DROP_RADIUS = 16;
 
 // 🧩 DOM ELEMENTS FOR UI
 const scoreDisplay = document.createElement("div");
@@ -79,8 +79,8 @@ gameContainer.appendChild(timerDisplay);
 // Quick facts to show between levels
 const WATER_FACTS = [
   "1 in 10 people lack access to clean water.",
-  "Women and girls spend 200 million hours collecting water each day.",
-  "Access to clean water can reduce waterborne diseases by up to 50%."
+  "Women and girls are responsible for water collection in 7 out of 10 households with water off premises. When a community gets water, women and girls get their lives back. They start businesses, improve their homes, and take charge of their own futures.",
+  "Clean water helps keep kids in school, especially girls. Less time collecting water means more time in class. Clean water and proper toilets at school means teenage girls don’t have to stay home for a week out of every month."
 ];
 
 function setTargetScore() {

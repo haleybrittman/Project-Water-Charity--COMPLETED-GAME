@@ -1,3 +1,29 @@
+/* --- SITE FOOTER --- */
+.site-footer {
+  width: 100vw;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: #fffbe6;
+  color: #222;
+  text-align: center;
+  font-size: 1.08em;
+  font-weight: 500;
+  padding: 10px 0 8px 0;
+  border-top: 2px solid #ffe066;
+  z-index: 1000;
+  letter-spacing: 0.1px;
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.07);
+}
+.site-footer a {
+  color: #2196f3;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 6px;
+}
+.site-footer a:hover {
+  text-decoration: underline;
+}
 /* Charity Water links on start screen */
 .charity-links {
   margin-top: 10px;
@@ -152,7 +178,7 @@ button:hover {
 
 canvas {
   display: block;
-  background: linear-gradient(#b3e5fc, #77A8BB);
+  background: linear-gradient(#ededed, #77A8BB);
   border: 2px solid #fff;
   border-radius: 10px;
 }

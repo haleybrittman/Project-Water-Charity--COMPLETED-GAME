@@ -130,12 +130,15 @@ body {
 
 /* --- LOGO & TITLES --- */
 .logo {
-  width: 200px;
+  width: 145px;
   margin-bottom: 10px;
 }
 
 .logo.small {
-  width: 110px;
+  width: 145px;
+  max-width: 92%;
+  display: block;
+  margin: 10px auto 15px auto;
   margin-bottom: 15px;
 }
 

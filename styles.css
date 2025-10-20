@@ -281,6 +281,20 @@ canvas {
   transition: transform 0.1s ease;
 }
 
+/* --- TIMER DISPLAY --- */
+#timer-display {
+  position: absolute;
+  bottom: 15px;
+  left: 20px;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 14px;
+  border-radius: 10px;
+  transition: color 0.3s ease;
+}
+
 .lives-flash {
   transform: scale(1.3);
   color: #ff4d4d;

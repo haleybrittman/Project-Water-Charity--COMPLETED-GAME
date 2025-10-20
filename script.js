@@ -11,6 +11,11 @@ const startScreen = document.getElementById("start-screen");
 const gameContainer = document.getElementById("game-container");
 const pauseMenu = document.getElementById("pause-menu");
 const gameOver = document.getElementById("game-over");
+// Level complete overlay elements
+const levelComplete = document.getElementById("level-complete");
+const levelMessage = document.getElementById("level-message");
+const factText = document.getElementById("fact-text");
+const nextLevelBtn = document.getElementById("next-level-btn");
 
 const pauseBtn = document.getElementById("pause-btn");
 const resumeBtn = document.getElementById("resume-btn");
@@ -29,11 +34,17 @@ let isPaused = false;
 let isPlaying = false;
 let drops = [];
 let player = { x: 370, y: 550, width: 70, height: 70 };
+// Levels
+let level = 1;
+const maxLevels = 3;
+let targetScore = 0;
 
 // 🌟 DIFFICULTY VARIABLES
 let difficulty = "normal";
 let dropSpeed = 3;
 let pollutantChance = 0.3;
+let baseDropSpeed = dropSpeed;
+let basePollutantChance = pollutantChance;
 
 // 💧 DROP VISUAL SETTINGS
 // Make clean water droplets larger to be easier to catch
@@ -55,6 +66,43 @@ const difficultyDisplay = document.createElement("div");
 difficultyDisplay.id = "difficulty-display";
 difficultyDisplay.textContent = `Mode: ${difficulty.toUpperCase()}`;
 gameContainer.appendChild(difficultyDisplay);
+
+// Quick facts to show between levels
+const WATER_FACTS = [
+  "1 in 10 people lack access to clean water.",
+  "Women and girls spend 200 million hours collecting water each day.",
+  "Access to clean water can reduce waterborne diseases by up to 50%."
+];
+
+function setTargetScore() {
+  // Level 1: 5, Level 2: 10, Level 3: 15
+  if (level === 1) {
+    targetScore = 5;
+  } else if (level === 2) {
+    targetScore = 10;
+  } else {
+    targetScore = 15;
+  }
+}
+
+function applyLevelScaling() {
+  // Scale speed and pollutants with level while capping pollutant chance
+  const lvlIdx = level - 1;
+  const speedBump = difficulty === "easy" ? 0.5 : difficulty === "normal" ? 0.7 : 1.0;
+  const pollBump = difficulty === "easy" ? 0.05 : difficulty === "normal" ? 0.08 : 0.10;
+  dropSpeed = baseDropSpeed + lvlIdx * speedBump;
+  pollutantChance = Math.min(0.85, basePollutantChance + lvlIdx * pollBump);
+}
+
+function completeLevel() {
+  isPlaying = false;
+  levelMessage.textContent = `Level ${level} Completed!`;
+  const fact = WATER_FACTS[(level - 1) % WATER_FACTS.length];
+  factText.textContent = `💧 Did you know? ${fact}`;
+  levelComplete.classList.add("active");
+  // Set button label depending on remaining levels
+  nextLevelBtn.textContent = level < maxLevels ? "Next Level →" : "Play Again";
+}
 
 // 💧 CREATE RANDOM DROPS
 function createDrop() {
@@ -126,6 +174,11 @@ function update() {
         score++;
         updateScore();
         flashCanvas("rgba(50, 255, 50, 0.4)");
+        // Check level target
+        if (isPlaying && score >= targetScore) {
+          completeLevel();
+          return;
+        }
       }
 
       drops.splice(i, 1);
@@ -214,6 +267,27 @@ resumeBtn.addEventListener("click", () => {
 restartBtn.addEventListener("click", restartGame);
 playAgainBtn.addEventListener("click", restartGame);
 
+// Next level button
+nextLevelBtn.addEventListener("click", () => {
+  levelComplete.classList.remove("active");
+  if (level < maxLevels) {
+    level++;
+    // Apply new scaling and reset level state
+    applyLevelScaling();
+    setTargetScore();
+    // Reset per-level state
+    score = 0;
+    updateScore();
+    drops = [];
+    for (let i = 0; i < 3; i++) createDrop();
+    isPlaying = true;
+    update();
+  } else {
+    // After final level, restart game flow
+    restartGame();
+  }
+});
+
 menuBtn.addEventListener("click", () => {
   isPlaying = false;
   isPaused = false;
@@ -228,17 +302,21 @@ const difficultyButtons = document.querySelectorAll(".difficulty-btn");
 difficultyButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     difficulty = btn.dataset.mode;
-
+    // Base values by mode
     if (difficulty === "easy") {
-      dropSpeed = 2.5;
-      pollutantChance = 0.25;
+      baseDropSpeed = 2.5;
+      basePollutantChance = 0.25;
     } else if (difficulty === "normal") {
-      dropSpeed = 4;
-      pollutantChance = 0.4;
+      baseDropSpeed = 4;
+      basePollutantChance = 0.4;
     } else if (difficulty === "hard") {
-      dropSpeed = 5.5;
-      pollutantChance = 0.55;
+      baseDropSpeed = 5.5;
+      basePollutantChance = 0.55;
     }
+    // Start at Level 1
+    level = 1;
+    applyLevelScaling();
+    setTargetScore();
 
     // Hide start screen and begin game
     startScreen.classList.remove("active");
@@ -252,6 +330,7 @@ function startGame() {
   isPlaying = true;
   score = 0;
   lives = 4;
+  levelComplete.classList.remove("active");
   player.x = 370;
   updateLives();
   updateScore();
@@ -264,6 +343,10 @@ function startGame() {
 function restartGame() {
   pauseMenu.classList.remove("active");
   gameOver.classList.remove("active");
+  levelComplete.classList.remove("active");
+  level = 1;
+  applyLevelScaling();
+  setTargetScore();
   gameContainer.classList.add("active");
   startGame();
 }

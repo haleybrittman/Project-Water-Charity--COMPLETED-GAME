@@ -216,6 +216,14 @@ function updateScore() {
   scoreDisplay.textContent = `Score: ${score}`;
   scoreDisplay.classList.add("score-bounce");
 
+  // Regain a life every 3 clean drops, up to max (4)
+  if (score > 0 && score % 3 === 0 && lives < 4) {
+    lives++;
+    updateLives();
+    livesDisplay.classList.add("lives-flash");
+    setTimeout(() => livesDisplay.classList.remove("lives-flash"), 400);
+  }
+
   scoreDisplay.style.color = "#ffcc00";
   setTimeout(() => {
     scoreDisplay.classList.remove("score-bounce");

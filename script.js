@@ -211,7 +211,7 @@ function update() {
         score++;
         updateScore();
         flashCanvas("rgba(50, 255, 50, 0.4)");
-        // Check level target
+        // Check level target — show milestone first if it coincides
         if (isPlaying && score >= targetScore) {
           // Pause gameplay while awaiting milestone popup (if any)
           if (milestoneShowing && milestonePromise) {
@@ -219,6 +219,10 @@ function update() {
             milestonePromise.then(() => {
               // Guard: ensure game still in a state to complete level
               completeLevel();
+            });
+          } else {
+            completeLevel();
+          }
           return;
         }
       }
@@ -260,6 +264,14 @@ function updateScore() {
   scoreDisplay.textContent = `Score: ${score}`;
   scoreDisplay.classList.add("score-bounce");
 
+  // Show milestone messages
+  MILESTONES.forEach(m => {
+    if (score === m.score && !shownMilestones.has(m.score)) {
+      showMilestoneMessage(m.message);
+      shownMilestones.add(m.score);
+    }
+  });
+
   // Regain a life every 3 clean drops, up to max (4)
   if (score > 0 && score % 3 === 0 && lives < 4) {
     lives++;
@@ -290,6 +302,10 @@ function endGame() {
   gameOver.classList.add("active");
 }
 
+  // Reset milestone tracking
+  shownMilestones.clear();
+  milestoneShowing = false;
+  milestonePromise = null;
 // ⏰ TIMER FUNCTIONS
 function startTimer() {
   timeRemaining = 25;
@@ -410,6 +426,7 @@ function startGame() {
   levelComplete.classList.remove("active");
   player.x = 370;
   player.y = 480; // Always reset y to keep player above the bottom
+  shownMilestones.clear();
   updateLives();
   updateScore();
   drops = [];

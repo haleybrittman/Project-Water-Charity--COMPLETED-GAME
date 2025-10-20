@@ -2,6 +2,11 @@
 // Player image for jerry can
 const playerImg = new Image();
 playerImg.src = "jerrycan2.png";
+// Preserve aspect ratio when sizing the player image
+playerImg.onload = () => {
+  const ratio = playerImg.naturalHeight / playerImg.naturalWidth || 1;
+  player.height = Math.round(player.width * ratio);
+};
 const startScreen = document.getElementById("start-screen");
 const gameContainer = document.getElementById("game-container");
 const pauseMenu = document.getElementById("pause-menu");
@@ -23,12 +28,17 @@ let lives = 4;
 let isPaused = false;
 let isPlaying = false;
 let drops = [];
-let player = { x: 370, y: 550, width: 90, height: 90 };
+let player = { x: 370, y: 550, width: 70, height: 70 };
 
 // 🌟 DIFFICULTY VARIABLES
 let difficulty = "normal";
 let dropSpeed = 3;
 let pollutantChance = 0.3;
+
+// 💧 DROP VISUAL SETTINGS
+// Make clean water droplets larger to be easier to catch
+const CLEAN_DROP_RADIUS = 16;
+const POLLUTANT_DROP_RADIUS = 10;
 
 // 🧩 DOM ELEMENTS FOR UI
 const scoreDisplay = document.createElement("div");
@@ -48,13 +58,15 @@ gameContainer.appendChild(difficultyDisplay);
 
 // 💧 CREATE RANDOM DROPS
 function createDrop() {
-  const x = Math.random() * (canvas.width - 20);
   const isPollutant = Math.random() < pollutantChance;
+  const radius = isPollutant ? POLLUTANT_DROP_RADIUS : CLEAN_DROP_RADIUS;
+  // Spawn fully on-screen based on droplet radius
+  const x = radius + Math.random() * (canvas.width - 2 * radius);
 
   const drop = {
     x,
     y: 0,
-    radius: 10,
+    radius,
     isPollutant: isPollutant,
     color: isPollutant ? "#6b4f4f" : "#00bfff",
   };
@@ -67,6 +79,9 @@ function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // draw player as jerry can image
+  // Use high-quality smoothing when downscaling to reduce blur
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
   ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
 
   // draw drops
